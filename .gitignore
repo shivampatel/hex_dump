@@ -1,0 +1,11 @@
+*.log
+*.gem
+*.*~
+._*
+.bindle
+.idea
+.yardoc
+.DS_Store
+doc
+nohup.out
+Gemfile.lock
