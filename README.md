@@ -34,14 +34,13 @@ contents = socket.recv(1024) # or data from a network socket
 
 #### View hex dump
 ```shell
-# Display hex with default options (line_size:16 and hex_color:HexDump::BLACK)
+# Display hex with default options
 
 HexDump.print contents
 ```
 
 ```shell
-# display hex in color Yellow. (default line_size:16 will be used 
-# since it is not specified in options hash)
+# display hex in color Yellow.
 
 HexDump.print contents, options={hex_color: HexDump::CYAN}
 ```
@@ -51,3 +50,32 @@ HexDump.print contents, options={hex_color: HexDump::CYAN}
 
 HexDump.print contents, options={line_size: 24, hex_color: HexDump::GREEN}
 ```
+
+#### Hex Dump options
+HexDump takes options in the form of options hash. 
+These are the options that can be passed to HexDump:
+
+##### hex_color
+
+Default is white. These are the values that hex_color can take:
+
+* HexDump::CYAN
+* HexDump::BLACK
+* HexDump::RED
+* HexDump::GREEN
+* HexDump::YELLOW
+* HexDump::BLUE
+* HexDump::MAGENTA
+* HexDump::CYAN
+* HexDump::WHITE
+ 
+#### line_size
+
+line_size can be 16, 24, 32 or 64. Default is 16
+
+#### delimiter
+
+Delimiter is the character that delimits the line numbers and the hex characters. Default is ":". Users can pass any character or string to denote a different delimiter.
+
+One use case of having different delimiters is to differentiate between different streams of data. Eg. differentiate between SSL data and plain text data in a hex stream of network but having delimiters as 'S' and ':' respectively.
+
