@@ -20,9 +20,10 @@ module HexDump
   WHITE   = 37 
   
   # Takes a buffer and displays it in hexadecimal in a format described by the options
-  # The optional options are :line_size and :hex_color
+  # The optional options are :line_size, :hex_color and :delimiter
   # :line_size sets the size (width) of the hex display. Can be 16(default), 24, 32 or 64 
   # :hex_color sets the color of the foreground text. Can be a number between 30 to 37 (see codes above)
+  # :delimiter sets the boundary between the line numbers and the hex values
   # @param buffer [String] The actual binary data/string that is to be displayed in hex.
   # @param options [Hash] This can be blank (in that case defaults options will be used).
   #   Otherwise a hash providing any of the settings that are to be changed.
@@ -31,10 +32,11 @@ module HexDump
   # @return [String] A string containing the entire hexdump. 
   def self.print(buffer = "", options = {})
     # merge(and overwrite) whatsoever options were passed by user
-    options = {line_size: 16, hex_color: WHITE }.merge(options)
+    options = {line_size: 16, hex_color: WHITE, delimiter: ":" }.merge(options)
     
     line_size = options[:line_size]
     hex_color = options[:hex_color]
+    delimiter = options[:delimiter]
     
     line_size = 16 unless [16, 24, 32, 64].include?(line_size) # prevent user providing arbit line_size
     
@@ -44,7 +46,7 @@ module HexDump
     buffer_length = buffer.length
     
     while byte_number < buffer_length
-      line_number = (sprintf '%08x', byte_number) + ": " # print byte number padded with zeros on left
+      line_number = (sprintf '%08x', byte_number) + delimiter + " " # print byte number padded with zeros on left
       
       if (buffer_length - byte_number) >= line_size
         characters = buffer.byteslice(byte_number, line_size)             # get a line size worth of characters
