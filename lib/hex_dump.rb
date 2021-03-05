@@ -32,11 +32,12 @@ module HexDump
   # @return [String] A string containing the entire hexdump. 
   def self.print(buffer = "", options = {})
     # merge(and overwrite) whatsoever options were passed by user
-    options = {line_size: 16, hex_color: WHITE, delimiter: ":" }.merge(options)
+    options = {line_size: 16, hex_color: WHITE, delimiter: ":", byte_start: 0}.merge(options)
     
-    line_size = options[:line_size]
-    hex_color = options[:hex_color]
-    delimiter = options[:delimiter]
+    line_size  = options[:line_size]
+    hex_color  = options[:hex_color]
+    delimiter  = options[:delimiter]
+    byte_start = options[:byte_start]
     
     line_size = 16 unless [16, 24, 32, 64].include?(line_size) # prevent user providing arbit line_size
     
@@ -46,7 +47,7 @@ module HexDump
     buffer_length = buffer.length
     
     while byte_number < buffer_length
-      line_number = (sprintf '%08x', byte_number) + delimiter + " " # print byte number padded with zeros on left
+      line_number = (sprintf '%08x', byte_start + byte_number) + delimiter + " " # print byte number padded with zeros on left
       
       if (buffer_length - byte_number) >= line_size
         characters = buffer.byteslice(byte_number, line_size)             # get a line size worth of characters
